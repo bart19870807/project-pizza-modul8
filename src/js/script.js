@@ -1,6 +1,6 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
-const { utils } = require('stylelint');
+// const { utils } = require('stylelint');
 
 {
   'use strict';
@@ -55,12 +55,12 @@ const { utils } = require('stylelint');
   };
 
   class Product {
-    constructor(id, data){
+    constructor(id, date){
       
       const thisProduct = this;
 
       thisProduct.id = id;
-      thisProduct.date = data;
+      thisProduct.date = date;
 
       
       thisProduct.randerInMenu();
@@ -70,7 +70,7 @@ const { utils } = require('stylelint');
     randerInMenu(){
       const thisProduct = this;
       /*generate HTML based on template*/
-      const generatedHTML = templates.menuProduct(thisProduct.data);
+      const generatedHTML = templates.menuProduct(thisProduct.date);
       /*create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
       /*find menu container */
