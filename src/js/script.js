@@ -1,5 +1,7 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
 
+const { utils } = require('stylelint');
+
 {
   'use strict';
 
@@ -53,21 +55,45 @@
   };
 
   class Product {
-    constructor(){
+    constructor(id, data){
+      
       const thisProduct = this;
+
+      thisProduct.id = id;
+      thisProduct.date = data;
+
+      
+      thisProduct.randerInMenu();
 
       console.log('new Product:', thisProduct);
     }
-  };
+    randerInMenu(){
+      const thisProduct = this;
+      /*generate HTML based on template*/
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      /*create element using utils.createElementFromHTML */
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      /*find menu container */
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      /*add element to menu */
+      menuContainer.appendChild(thisProduct.element);
+    }
+  }
 
   const app = {
 
     initMenu: function(){
       const thisApp = this;
-      console.log('thisApp.data :', thisApp.data);
-      const testProduct = new Product();
-      console.log('testProduct :', testProduct);
+      console.log('this.App.date:', thisApp.date);
+
+      for(let productData in thisApp.data.products){
+        new Product(productData, thisApp.data.products[productData]);
+      }
+      // console.log('thisApp.data :', thisApp.data);
+      // const testProduct = new Product();
+      // console.log('testProduct :', testProduct);
     },
+    // const thisApp = this;
 
     initData: function(){
       const thisApp = this;
