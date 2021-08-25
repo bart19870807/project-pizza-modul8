@@ -82,34 +82,40 @@
 
     initAccordeon(){
       const thisProduct = this;
-      console.log("thisProduct2 :", thisProduct);
+      console.log('thisProduct2 :', thisProduct);
       /*find the clickable trigger (the elemnt that should react to clicking) */
       const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       console.log('clickableTrigger:', clickableTrigger);
       /*START: add event listener to clickable trigger on event click */
+      clickableTrigger.addEventListener('click',function(){
+        /*prevent default action for element */
+        element.preventDefault();
 
+        /*find active product (product that has active class) */
+        const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
+        console.log('allActive:', allActiveProduct);
 
-      /*prevent default action for element */
-      // element.preventDefault();
-
-      /*find active product (product that has active class) */
-      const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
-      console.log('allActive:', allActiveProduct);
+        for(allActiveProducts of allActiveProduct){
+          allActiveProducts.addEventListener('click', function(){
+            if(allActiveProduct !== thisProduct.element){
+              thisProduct.element.classList.toggle('active');
+            }
+          });
+        }
+      });
+     
       
-      for(allActiveProducts of allActiveProduct){
-        allActiveProducts.addEventListener('click', function(){
-          if(allActiveProduct !== thisProduct.element){
-            thisProduct.element.classList.toggle('active');
-          }
-        })
-      }
       
-      /*if there is active product and it's not thisProduct.element, remove class active from it */
+      
 
-      /*toggle active class on thisProduct.element */
 
-    }
-  }
+      
+      
+
+      
+
+    
+  
 
   const app = {
 
@@ -148,4 +154,6 @@
   
 
   app.init();
+    }
+  }
 }
