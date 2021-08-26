@@ -92,7 +92,7 @@
         event.preventDefault();
 
         /*find active product (product that has active class) */
-        const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
+        const allActiveProduct = thisProduct.element.querySelectorAll(classNames.menuProduct.wrapperActive);
         console.log('allActive:', allActiveProduct);
 
         for(allActiveProducts of allActiveProduct){
@@ -103,20 +103,8 @@
           });
         }
       });
-     
-      
-      
-      
-
-
-      
-      
-
-      
-
-    
-  
-
+    }
+  }
   const app = {
 
     initMenu: function(){
@@ -137,7 +125,9 @@
   
       thisApp.data = dataSource;
     },
+      
 
+      
     init: function(){
       const thisApp = this;
       console.log('*** App starting ***');
@@ -149,11 +139,7 @@
       thisApp.initData();
       thisApp.initMenu();
     },
-  };
-
+  };  
   
-
   app.init();
-    }
-  }
 }
