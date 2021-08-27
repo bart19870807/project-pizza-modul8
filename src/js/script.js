@@ -64,9 +64,12 @@
 
       
       thisProduct.randerInMenu();
+      thisProduct.getElement();
       thisProduct.initAccordeon();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
 
-      console.log('new Product:', thisProduct);
+      // console.log('new Product:', thisProduct);
     }
     randerInMenu(){
       const thisProduct = this;
@@ -80,14 +83,12 @@
       menuContainer.appendChild(thisProduct.element);
     }
 
-    initAccordeon(){
+    getElement(){
+      
       const thisProduct = this;
-      console.log('thisProduct2 :', thisProduct);
-      /*find the clickable trigger (the elemnt that should react to clicking) */
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      console.log('clickableTrigger:', clickableTrigger);
-      /*START: add event listener to clickable trigger on event click */
-      clickableTrigger.addEventListener('click',function(event){
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.accordionTrigger.addEventListener('click',function(event){
         /*prevent default action for element */
         event.preventDefault();
 
@@ -103,6 +104,66 @@
           });
         }
       });
+    
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
+
+    initAccordeon(){
+      const thisProduct = this;
+      console.log('thisProduct2 :', thisProduct);
+      /*find the clickable trigger (the elemnt that should react to clicking) */
+      // const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      // console.log('clickableTrigger:', clickableTrigger);
+      // /*START: add event listener to clickable trigger on event click */
+      // clickableTrigger.addEventListener('click',function(event){
+      //   /*prevent default action for element */
+      //   event.preventDefault();
+
+      //   /*find active product (product that has active class) */
+      //   const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
+      //   console.log('allActive:', allActiveProduct);
+
+      //   for(let singleActiveProduct of allActiveProduct){
+      //     singleActiveProduct.addEventListener('click', function(){
+      //       if(allActiveProduct !== thisProduct.element){
+      //         thisProduct.element.classList.toggle('active');
+      //       }
+      //     });
+      //   }
+      // });
+    }
+
+    initOrderForm(){
+      const thisProduct = this;
+      console.log('thisProdct3:',thisProduct);
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+
+        thisProduct.processOrder();
+
+      });
+
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change',function(){
+          thisProduct.processOrder();
+        });
+      }
+
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      })
+    }
+    processOrder(){
+      const thisProduct = this;
+      console.log('thisProduct4:', thisProduct);
     }
   }
   const app = {
