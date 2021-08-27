@@ -92,11 +92,11 @@
         event.preventDefault();
 
         /*find active product (product that has active class) */
-        const allActiveProduct = thisProduct.element.querySelectorAll(classNames.menuProduct.wrapperActive);
+        const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
         console.log('allActive:', allActiveProduct);
 
-        for(allActiveProducts of allActiveProduct){
-          allActiveProducts.addEventListener('click', function(){
+        for(let singleActiveProduct of allActiveProduct){
+          singleActiveProduct.addEventListener('click', function(){
             if(allActiveProduct !== thisProduct.element){
               thisProduct.element.classList.toggle('active');
             }
