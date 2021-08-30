@@ -55,12 +55,12 @@
   };
 
   class Product {
-    constructor(id, date){
+    constructor(id, data){
       
       const thisProduct = this;
 
       thisProduct.id = id;
-      thisProduct.date = date;
+      thisProduct.data = data;
 
       
       thisProduct.randerInMenu();
@@ -74,7 +74,7 @@
     randerInMenu(){
       const thisProduct = this;
       /*generate HTML based on template*/
-      const generatedHTML = templates.menuProduct(thisProduct.date);
+      const generatedHTML = templates.menuProduct(thisProduct.data);
       /*create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
       /*find menu container */
@@ -94,7 +94,7 @@
 
         /*find active product (product that has active class) */
         const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
-        console.log('allActive:', allActiveProduct);
+        console.log('allActive:', allActiveProduct)
 
         for(let singleActiveProduct of allActiveProduct){
           singleActiveProduct.addEventListener('click', function(){
@@ -184,17 +184,23 @@
           //determine option value
           const option = param.options[optionId];
           console.log(optionId, option);
+          //check if there is param with a name of paramId in formData and if
+          //it includes optionId
+          if(formData[paramId]&&formData[paramId].includes(optionId)){
+            //check if the option is not default
+
+          }
         }
       }
       //update calculated price in the HTML
-      thisProduct.priceElem.innerHTML=price;
+      thisProduct.priceElem.innerHTML = price;
     }
   }
   const app = {
 
     initMenu: function(){
       const thisApp = this;
-      console.log('this.App.date:', thisApp.date);
+      console.log('this.App.data:', thisApp.data);
 
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
