@@ -159,11 +159,35 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
-      })
+      });
     }
     processOrder(){
       const thisProduct = this;
-      console.log('thisProduct4:', thisProduct);
+
+      //convert form to object structur
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData: ', formData);
+      // console.log('thisProduct4:', thisProduct);
+
+      //set price to default price
+      let price = thisProduct.data.price;
+
+      //for every category(param)...
+      for(let paramId in thisProduct.data.params){
+        //determine param value e.g. paramId = toppings, param = {label: 'Toppings'
+      // type: 'chceckboxes}
+        const param = thisProduct.data.params[paramId];
+        console.log(paramId, param);
+
+        //for every option in this category
+        for(let optionId in param.options){
+          //determine option value
+          const option = param.options[optionId];
+          console.log(optionId, option);
+        }
+      }
+      //update calculated price in the HTML
+      thisProduct.priceElem.innerHTML=price;
     }
   }
   const app = {
