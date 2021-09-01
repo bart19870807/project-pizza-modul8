@@ -94,7 +94,7 @@
 
         /*find active product (product that has active class) */
         const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
-        console.log('allActive:', allActiveProduct)
+        console.log('allActive:', allActiveProduct);
 
         for(let singleActiveProduct of allActiveProduct){
           singleActiveProduct.addEventListener('click', function(){
@@ -186,16 +186,19 @@
           console.log(optionId, option);
           // check if there is param with a name of paramId in formData and if
           // it includes optionId
-          // if(formData[paramId]&&formData[paramId].includes(optionId))
+          // if(formData[paramId]&&formData[paramId].includes(optionId)){
           //   // check if the option is not default
-          //   if(param.default != true){
+          //   if(option.default != true){
           //     // add options price to price variable
+          //     thisProduct.priceElem + param.options[price];
           //   } else{
           //     // check if the option is default
+          //     if(option.default = true){
+          //       // reduce price variable
+          //       thisProduct.priceElem - param.options[price];
+          //     }
           //   }
-          //   if(){
-          //     // reduce price variable
-          //   }
+          // }
             
 
 
