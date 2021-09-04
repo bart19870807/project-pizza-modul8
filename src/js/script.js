@@ -186,24 +186,25 @@
           //determine option value
           const option = param.options[optionId];
           console.log(optionId, option);
-          
+
           const optionSelected = formData[paramId]&&formData[paramId].includes(optionId);
+          console.log('optionSELECTED: ',optionSelected);
           if(optionSelected){
             const optionImage = thisProduct.imageWrapper.querySelector('.paramId-optionId');
             if(optionImage){
-              if(optionSelected.default != true){
+              if(optionSelected == true){
                 // add options price to price variable
-                thisProduct.priceElem + param.options[price];
+                // thisProduct.priceElem + param.options[price];
+                thisProduct.data.price + param.options[price];
                 optionImage.classList.add(classNames.menuProduct.imageVisible);
               } else{
                 // check if the option is default
-                if(optionSelected.default == true){
+                if(optionSelected == true){
                 // reduce price variable
                 // thisProduct.priceElem - param.options[price];
                   optionImage.classList.add(classNames.menuProduct.imageVisible);
                 }
               }
-              
             }
           }
           // console.log(optionId, optionSelected);
