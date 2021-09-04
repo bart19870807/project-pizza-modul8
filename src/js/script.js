@@ -184,42 +184,46 @@
         //for every option in this category
         for(let optionId in param.options){
           //determine option value
-          const option = param.options[optionId];
-          console.log(optionId, option);
-          // check if there is param with a name of paramId in formData and if
-          // it includes optionId
-          if(formData[paramId]&&formData[paramId].includes(optionId)){
-            // check if the option is not default
-            if(option.default != true){
-              // add options price to price variable
-              thisProduct.priceElem + param.options[price];
-            } else{
-              // check if the option is default
-              if(option.default == true){
-                // reduce price variable
-                thisProduct.priceElem - param.options[price];
+          const optionSelected = formData[paramId]&&formData[paramId].includes(optionId);
+          if(optionSelected){
+            const optionImage = thisProduct.imageWrapper.querySelector('.paramId-optionId');
+            if(optionImage){
+              if(optionSelected){
+                if(optionSelected.default != true){
+                  // add options price to price variable
+                  thisProduct.priceElem + param.options[price];
+                  optionImage.classList.add(classNames.menuProduct.imageVisible);
+                        
+                } else{
+                  // check if the option is default
+                  if(optionSelected.default == true){
+                    // reduce price variable
+                    // thisProduct.priceElem - param.options[price];
+                    optionImage.classList.add(classNames.menuProduct.imageVisible);
+    
+                  }
+                }
               }
             }
           }
-          // const optionImage = thisProduct.imageWrapper.querySelector('.paramId-optionId')
-          // if(optionImage){
-          //   if(optionSelected){
-          //     if(option.default != true){
-          //       // add options price to price variable
-          //       thisProduct.priceElem + param.options[price];
-          //       optionImage.classList.add(classNames.menuProduct.imageVisible);
-                    
-          //     } else{
-          //       // check if the option is default
-          //       if(option.default == true){
-          //         // reduce price variable
-          //         thisProduct.priceElem - param.options[price];
-          //         optionImage.classList.remove(classNames.menuProduct.imageVisible);
-
-          //       }
+          // console.log(optionId, optionSelected);
+          // check if there is param with a name of paramId in formData and if
+          // it includes optionId
+          // if(formData[paramId]&&formData[paramId].includes(optionId)){
+            // check if the option is not default
+            // if(option.default != true){
+              // add options price to price variable
+            //   thisProduct.priceElem + param.options[price];
+            // } else{
+              // check if the option is default
+              // if(option.default == true){
+                // reduce price variable
+          //       thisProduct.priceElem - param.options[price];
           //     }
           //   }
           // }
+          
+          
             
 
 
