@@ -97,26 +97,34 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
 
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-    
+      
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
-    initAccordeon(){
+    initAccordion(){
       const thisProduct = this;
-      thisProduct.accordionTrigger.addEventListener('click',function(event){
+      thisProduct.accordionTrigger.addEventListener('click', function(){
         /*prevent default action for element */
         event.preventDefault();
+        const parentClickableElement = thisProduct.accordionTrigger.parentElement;
+        parentClickableElement.classList.toggle(classNames.menuProduct.wrapperActive);
 
         /*find active product (product that has active class) */
-        const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
-        console.log('allActive:', allActiveProduct);
+        const allActiveProducts = document.querySelectorAll(select.all.menuProductsActive);
+        // console.log('allActive:', allActiveProduct);
 
-        for(let singleActiveProduct of allActiveProduct){
-          singleActiveProduct.addEventListener('click', function(){
-            if(allActiveProduct !== thisProduct.element){
-              thisProduct.element.classList.toggle('active');
-            }
-          });
+        for(let product of allActiveProducts) {
+   
+          /* START: if the active product isn't the element of thisProduct */
+          if(product != parentClickableElement) {
+            /*[DONE] remove class active for the active product */
+            product.classList.remove(classNames.menuProduct.wrapperActive);
+ 
+          /* END: if the active product isn't the element of thisProduct */
+          }
+        /* END LOOP: for each active product */
         }
       });
     }
@@ -171,40 +179,40 @@
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
           // console.log('optionSELECTED: ',optionSelected);
           
-            const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
-            if(optionImage){
-              if(optionSelected){
-                optionImage.classList.add(classNames.menuProduct.imageVisible);
-              }
-              else{
-                  optionImage.classList.remove('active');
-                // check if the option is default
-                
-              }
+          const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
+          if(optionImage){
+            if(optionSelected){
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
             }
+            else{
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
+              // check if the option is default
+                
+            }
+          }
           
-            if (optionSelected) {
+          if (optionSelected) {
    
-              // [DONE] check if the option is not default
-              if (option.hasOwnProperty('default') != true){
+            // [DONE] check if the option is not default
+            if (option.hasOwnProperty('default') != true){
    
-                // [DONE] add option price to price variable
-                price += option.price;
+              // [DONE] add option price to price variable
+              price += option.price;
    
-              }
-            } else {
+            }
+          } else {
    
-              // [DONE] check if the option is default
-              if(option.hasOwnProperty('default') == true){
+            // [DONE] check if the option is default
+            if(option.hasOwnProperty('default') == true){
    
-                // [DONE] reduce price variable
-                price -= option.price;
+              // [DONE] reduce price variable
+              price -= option.price;
    
-              }
             }
           }
         }
-        //update calculated price in the HTML
+      }
+      //update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;  
           
             
@@ -213,10 +221,10 @@
 
 
           
-        }
-      }
-      
+    }
   }
+      
+
   
   const app = {
 
@@ -227,9 +235,9 @@
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }
-      // console.log('thisApp.data :', thisApp.data);
-      // const testProduct = new Product();
-      // console.log('testProduct :', testProduct);
+    // console.log('thisApp.data :', thisApp.data);
+    // const testProduct = new Product();
+    // console.log('testProduct :', testProduct);
     },
     // const thisApp = this;
 
