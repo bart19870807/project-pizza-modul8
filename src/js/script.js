@@ -65,7 +65,7 @@
       
       thisProduct.randerInMenu();
       thisProduct.getElement();
-      thisProduct.initAccordeon();
+      thisProduct.initAccordion();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
 
@@ -88,6 +88,21 @@
       const thisProduct = this;
 
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      
+    
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+    }
+
+    initAccordeon(){
+      const thisProduct = this;
       thisProduct.accordionTrigger.addEventListener('click',function(event){
         /*prevent default action for element */
         event.preventDefault();
@@ -104,41 +119,6 @@
           });
         }
       });
-    
-      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
-
-      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
-
-      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
-
-      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-    
-      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
-    }
-
-    initAccordeon(){
-      const thisProduct = this;
-      console.log('thisProduct2 :', thisProduct);
-      /*find the clickable trigger (the elemnt that should react to clicking) */
-      // const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      // console.log('clickableTrigger:', clickableTrigger);
-      // /*START: add event listener to clickable trigger on event click */
-      // clickableTrigger.addEventListener('click',function(event){
-      //   /*prevent default action for element */
-      //   event.preventDefault();
-
-      //   /*find active product (product that has active class) */
-      //   const allActiveProduct = thisProduct.element.querySelectorAll(select.menuProduct.clickable);
-      //   console.log('allActive:', allActiveProduct);
-
-      //   for(let singleActiveProduct of allActiveProduct){
-      //     singleActiveProduct.addEventListener('click', function(){
-      //       if(allActiveProduct !== thisProduct.element){
-      //         thisProduct.element.classList.toggle('active');
-      //       }
-      //     });
-      //   }
-      // });
     }
 
     initOrderForm(){
@@ -168,62 +148,64 @@
 
       //convert form to object structur
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData: ', formData);
+      // console.log('formData: ', formData);
       // console.log('thisProduct4:', thisProduct);
 
       //set price to default price
       let price = thisProduct.data.price;
+      // console.log('PRICE', price);
 
       //for every category(param)...
       for(let paramId in thisProduct.data.params){
         //determine param value e.g. paramId = toppings, param = {label: 'Toppings'
       // type: 'chceckboxes}
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
+        // console.log(paramId, param);
 
         //for every option in this category
         for(let optionId in param.options){
           //determine option value
           const option = param.options[optionId];
-          console.log(optionId, option);
+          // console.log(optionId, option);
 
-          const optionSelected = formData[paramId]&&formData[paramId].includes(optionId);
-          console.log('optionSELECTED: ',optionSelected);
-          if(optionSelected){
-            const optionImage = thisProduct.imageWrapper.querySelector('.paramId-optionId');
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          // console.log('optionSELECTED: ',optionSelected);
+          
+            const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
             if(optionImage){
-              if(optionSelected == true){
-                // add options price to price variable
-                // thisProduct.priceElem + param.options[price];
-                thisProduct.data.price + param.options[price];
+              if(optionSelected){
                 optionImage.classList.add(classNames.menuProduct.imageVisible);
-              } else{
+              }
+              else{
+                  optionImage.classList.remove('active');
                 // check if the option is default
-                if(optionSelected == true){
-                // reduce price variable
-                // thisProduct.priceElem - param.options[price];
-                  optionImage.classList.add(classNames.menuProduct.imageVisible);
-                }
+                
+              }
+            }
+          
+            if (optionSelected) {
+   
+              // [DONE] check if the option is not default
+              if (option.hasOwnProperty('default') != true){
+   
+                // [DONE] add option price to price variable
+                price += option.price;
+   
+              }
+            } else {
+   
+              // [DONE] check if the option is default
+              if(option.hasOwnProperty('default') == true){
+   
+                // [DONE] reduce price variable
+                price -= option.price;
+   
               }
             }
           }
-          // console.log(optionId, optionSelected);
-          // check if there is param with a name of paramId in formData and if
-          // it includes optionId
-          // if(formData[paramId]&&formData[paramId].includes(optionId)){
-          // check if the option is not default
-          // if(option.default != true){
-          // add options price to price variable
-          //   thisProduct.priceElem + param.options[price];
-          // } else{
-          // check if the option is default
-          // if(option.default == true){
-          // reduce price variable
-          //       thisProduct.priceElem - param.options[price];
-          //     }
-          //   }
-          // }
-          
+        }
+        //update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;  
           
             
 
@@ -233,10 +215,9 @@
           
         }
       }
-      //update calculated price in the HTML
-      thisProduct.priceElem.innerHTML = price;
-    }
+      
   }
+  
   const app = {
 
     initMenu: function(){
