@@ -260,6 +260,10 @@
       
       thisWidget.input.value = thisWidget.value;
     }
+    initActions(){
+      const thisWidget = this;
+      
+    }
   }
       
 
