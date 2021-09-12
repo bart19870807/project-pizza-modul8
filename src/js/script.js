@@ -69,6 +69,7 @@
       thisProduct.initOrderForm();
       thisProduct.processOrder();
       thisProduct.initAmountWidget();
+      
 
       // console.log('new Product:', thisProduct);
     }
@@ -237,6 +238,7 @@
 
       thisWidget.getElements(element);
       thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
       
       console.log('AmountWidget: ', thisWidget);
       console.log('constructor argument: ', element);
@@ -254,7 +256,7 @@
       const newValue = parseInt(value);
 
       //to do: add validation
-      if(thisWidget.value != newValue && !isNaN(newValue)){
+      if(thisWidget.value != newValue && newValue>= settings.amountWidget.defaultMin && newValue<= settings.amountWidget.defaultMax && !isNaN(newValue)){
         thisWidget.value = newValue;
       }
       
@@ -262,7 +264,20 @@
     }
     initActions(){
       const thisWidget = this;
-      thisWidget.input.addEventListener('change', );
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value);
+      });
+
+      thisWidget.linkDecrease.addEventListener('click', function(){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value-1);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function(){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value+1);
+      })
+
 
       
     }
