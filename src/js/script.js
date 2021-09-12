@@ -103,7 +103,7 @@
       
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
 
-      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget)
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
 
     initAccordion(){
@@ -262,6 +262,8 @@
     }
     initActions(){
       const thisWidget = this;
+      thisWidget.input.addEventListener('change', );
+
       
     }
   }
