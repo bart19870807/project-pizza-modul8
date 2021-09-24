@@ -217,7 +217,8 @@
         }
       }
       /*multiply price by amount*/
-      price *= thisProduct.amountWidget.value;
+      // price *= thisProduct.amountWidget.value;
+      // console.log(price);
       //update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;  
           
@@ -245,6 +246,7 @@
       thisWidget.getElements(element);
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
+      thisWidget.announce();
       
       console.log('AmountWidget: ', thisWidget);
       console.log('constructor argument: ', element);
