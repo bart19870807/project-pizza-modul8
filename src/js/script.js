@@ -67,8 +67,9 @@
       thisProduct.getElement();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
-      thisProduct.processOrder();
       thisProduct.initAmountWidget();
+      thisProduct.processOrder();
+      
       
 
       // console.log('new Product:', thisProduct);
@@ -217,7 +218,7 @@
         }
       }
       /*multiply price by amount*/
-      // price *= thisProduct.amountWidget.value;
+      price *= settings.amountWidget.defaultValue;
       // console.log(price);
       //update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;  
@@ -264,12 +265,13 @@
       const newValue = parseInt(value);
 
       //to do: add validation
-      if(thisWidget.value != newValue && newValue>= settings.amountWidget.defaultMin && newValue<= settings.amountWidget.defaultMax && !isNaN(newValue)){
-        thisWidget.value = newValue;
+      if(settings.amountWidget.defaultValue != newValue && newValue>= settings.amountWidget.defaultMin && newValue<= settings.amountWidget.defaultMax && !isNaN(newValue)){
+        settings.amountWidget.defaultValue = newValue;
       }
       
       this.announce();
-      thisWidget.input.value = thisWidget.value;
+      thisWidget.input.value = settings.amountWidget.defaultValue;
+      // settings.amountWidget.defaultValue
     }
     initActions(){
       const thisWidget = this;
@@ -279,12 +281,12 @@
 
       thisWidget.linkDecrease.addEventListener('click', function(){
         event.preventDefault();
-        thisWidget.setValue(thisWidget.value-1);
+        thisWidget.setValue(settings.amountWidget.defaultValue-1);
       });
 
       thisWidget.linkIncrease.addEventListener('click', function(){
         event.preventDefault();
-        thisWidget.setValue(thisWidget.value+1);
+        thisWidget.setValue(settings.amountWidget.defaultValue+1);
       });     
     }
     announce(){
