@@ -106,6 +106,7 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
       thisProduct.prepareCartProduct();
+      thisProduct.prepareCartProductParams();
       
       
 
@@ -259,10 +260,12 @@
         }
       }
       /*multiply price by amount*/
-      price *= settings.amountWidget.defaultValue;
+      
+      price *= thisProduct.amountWidget.value;
+      thisProduct.priceSingle = price;
       // console.log(price);
       //update calculated price in the HTML
-      thisProduct.priceSingle = price;
+      
       thisProduct.priceElem.innerHTML = price;  
           
             
@@ -283,7 +286,11 @@
     addToCart(){
       const thisProduct = this;
 
-      app.cart.add(thisProduct);
+      thisProduct.name = thisProduct.data.name;
+      thisProduct.amount = thisProduct.amountWidget.value; 
+
+      // app.cart.add(thisProduct);
+      thisProduct.prepareCartProduct();
     }
     prepareCartProduct(){
       const thisProduct = this;
@@ -292,27 +299,114 @@
 
       productSummary.id = thisProduct.id;
       productSummary.name = thisProduct.data.name;
-      productSummary.amount = thisProduct.amountWidget.input.amount;
+      productSummary.amount = thisProduct.amountWidget.value;
       productSummary.priceSingle = thisProduct.priceSingle;
-      productSummary.price = thisProduct.price * thisProduct.amount;
+      productSummary.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
 
       console.log('product summary ', productSummary);
 
-    }
-    
-  }
+      const params ={};
+      return params.productSummary;
 
-  class AmountWidget{
-    constructor(element){
+    }
+    prepareCartProductParams(){
+      const thisProduct = this;
+
+      //convert form to object structur
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      // console.log('formData: ', formData);
+      // console.log('thisProduct4:', thisProduct);
+      const params = {};
+      //for every category(param)...
+      for(let paramId in thisProduct.data.params){
+        const param = thisProduct.data.params[paramId];
+        
+        //create category param in params const eg. params = {ingredients:{name: 'Ingredients', option:{}};
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        }
+
+        //for every option in this category
+        for(let optionId in param.options){
+          const option = param.options[optionId];
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          // console.log('optionSELECTED: ',optionSelected);
+          
+          if (optionSelected) {
+            params[paramId].options.add(option);
+   
+            
+            
+          }
+        } 
+      }
+      return params;
+    }
+  }  
+  
+  
+  class AmountWidget {
+    constructor(element) {
       const thisWidget = this;
 
       thisWidget.getElements(element);
+   
+      thisWidget.maxValue = settings.amountWidget.defaultMax;
+      thisWidget.minValue = settings.amountWidget.defaultMin;
+   
+      thisWidget.input.value = parseInt(thisWidget.input.value) ? thisWidget.input.value : thisWidget.minValue;
+
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
-      thisWidget.announce();
+
+
+      // thisWidget.announce();
       
       console.log('AmountWidget: ', thisWidget);
       console.log('constructor argument: ', element);
+    }
+    
+    setValue(value) {
+      const thisWidget = this;
+      const newValue = parseInt(value);
+
+      //to do: add validation
+      if(thisWidget.value != newValue && newValue >= thisWidget.minValue && newValue <= thisWidget.maxValue) {
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+      // if(settings.amountWidget.defaultValue != newValue && newValue>= settings.amountWidget.defaultMin && newValue<= settings.amountWidget.defaultMax && !isNaN(newValue)){
+      //   settings.amountWidget.defaultValue = newValue;
+      //   thisWidget.announce();
+      // }
+      
+      // this.announce();
+      thisWidget.input.value = thisWidget.value;
+      // settings.amountWidget.defaultValue
+    }
+    initActions() {
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value);
+      });
+
+      thisWidget.linkDecrease.addEventListener('click', function(){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function(){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+      });     
+    }
+    announce() {
+      const thisWidget = this;
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      });
+      thisWidget.element.dispatchEvent(event);
     }
     getElements(element){
       const thisWidget = this;
@@ -321,40 +415,8 @@
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
-    }
-    setValue(value){
-      const thisWidget = this;
-      const newValue = parseInt(value);
-
-      //to do: add validation
-      if(settings.amountWidget.defaultValue != newValue && newValue>= settings.amountWidget.defaultMin && newValue<= settings.amountWidget.defaultMax && !isNaN(newValue)){
-        settings.amountWidget.defaultValue = newValue;
-      }
-      
-      this.announce();
-      thisWidget.input.value = settings.amountWidget.defaultValue;
-      // settings.amountWidget.defaultValue
-    }
-    initActions(){
-      const thisWidget = this;
-      thisWidget.input.addEventListener('change', function(){
-        thisWidget.setValue(thisWidget.input.value);
-      });
-
-      thisWidget.linkDecrease.addEventListener('click', function(){
-        event.preventDefault();
-        thisWidget.setValue(settings.amountWidget.defaultValue-1);
-      });
-
-      thisWidget.linkIncrease.addEventListener('click', function(){
-        event.preventDefault();
-        thisWidget.setValue(settings.amountWidget.defaultValue+1);
-      });     
-    }
-    announce(){
-      const thisWidget = this;
-      const event = new Event('updated');
-      thisWidget.element.dispatchEvent(event);
+      thisWidget.maxValue = thisWidget.input.getAttribute(select.widgets.amount.max);
+      thisWidget.minValue = thisWidget.input.getAttribute(select.widgets.amount.min);
     }
     
   }
