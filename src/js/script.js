@@ -302,12 +302,14 @@
       productSummary.amount = thisProduct.amountWidget.value;
       productSummary.priceSingle = thisProduct.priceSingle;
       productSummary.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+      productSummary.param = thisProduct.prepareCartProductParams();
+      
 
       console.log('product summary ', productSummary);
 
       const params ={};
       return params.productSummary;
-
+      
     }
     prepareCartProductParams(){
       const thisProduct = this;
@@ -325,17 +327,27 @@
         params[paramId] = {
           label: param.label,
           options: {}
-        }
+        };
 
         //for every option in this category
         for(let optionId in param.options){
           const option = param.options[optionId];
+          console.log('option:',option);
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
-          // console.log('optionSELECTED: ',optionSelected);
-          
-          if (optionSelected) {
-            params[paramId].options.add(option);
-   
+          console.log('optionSELECTED: ',optionSelected);
+          // const kot =params[paramId].options;
+          // console.log("kot", kot);
+          if(optionSelected === true) {
+            params[paramId].options;
+            
+
+            // params[paramId].options.classList.add(params);
+            // params.classList.add(params[paramId].options);
+            // params.classList.add(option);
+            // option.classList.add(className.params);
+            // option.add(params)
+            // params.add(option)
+            // params[paramId].options.add(option.params);
             
             
           }
