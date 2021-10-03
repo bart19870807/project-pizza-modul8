@@ -335,8 +335,8 @@
           console.log('option:',option);
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
           console.log('optionSELECTED: ',optionSelected);
-          // const kot =params[paramId].options;
-          // console.log("kot", kot);
+          const kot =params[paramId].options;
+          console.log('kot', kot);
           if(optionSelected === true) {
             params[paramId].options;
             
