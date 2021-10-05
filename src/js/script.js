@@ -332,11 +332,11 @@
         //for every option in this category
         for(let optionId in param.options){
           const option = param.options[optionId];
-          console.log('option:',option);
+          // console.log('option:',option);
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
-          console.log('optionSELECTED: ',optionSelected);
-          const kot =params[paramId].options;
-          console.log('kot', kot);
+          // console.log('optionSELECTED: ',optionSelected);
+          // const kot =params[paramId].options;
+          // console.log('kot', kot);
           if(optionSelected === true) {
             params[paramId].options;
             
@@ -375,8 +375,8 @@
 
       // thisWidget.announce();
       
-      console.log('AmountWidget: ', thisWidget);
-      console.log('constructor argument: ', element);
+      // console.log('AmountWidget: ', thisWidget);
+      // console.log('constructor argument: ', element);
     }
     
     setValue(value) {
@@ -441,6 +441,7 @@
 
       thisCart.getElements(element);
       thisCart.initActions();
+      thisCart.add();
 
       console.log('new Cart:' , thisCart);
     }
@@ -452,6 +453,9 @@
       thisCart.dom.wrapper = element;
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+
+      thisCart.dom.productList = select.cartProduct;
+
     }
     initActions(){
       const thisCart = this;
@@ -462,8 +466,18 @@
       });
     }
     add(menuProduct){
-      //const thisCart = this;
+      const thisCart = this;
       console.log('adding product: ', menuProduct);
+
+      const generatedHTML = templates.cartProduct(thisCart.data);
+      console.log('GHTML', generatedHTML);
+      /*create element using utils.createElementFromHTML */
+      thisCart.dom.productList = utils.createDOMFromHTML(generatedHTML);
+      /*find menu container */
+      const generatedDom = document.querySelector(select.containerOf.cart);
+      /*add element to menu */
+      console.log('MENU', generatedDom);
+      generatedDom.appendChild(thisCart.dom.productList);
     }
   }
 
