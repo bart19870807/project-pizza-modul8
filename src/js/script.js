@@ -489,13 +489,13 @@
   }
 
   class CartProduct {
-    constructor (menuProduct, element){
+    constructor (menuProduct, element) {
       const thisCartProduct = this;
 
       thisCartProduct.menuProduct = menuProduct;
       thisCartProduct.element = element; 
 
-      thisCartProduct.cartProduct = [];
+      thisCartProduct.cartProduct = {};
 
       thisCartProduct.id = menuProduct.id;
       thisCartProduct.name = menuProduct.name;
@@ -503,7 +503,7 @@
       thisCartProduct.priceSingle = menuProduct.priceSingle;
       thisCartProduct.price = menuProduct.price; 
 
-      thisCartProduct.getElements(element);
+      thisCartProduct.getElements();
 
       console.log('THIScARTpRODUCT', thisCartProduct);
     }
@@ -520,7 +520,11 @@
       thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
       thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
     }
+  
   }
+
+
+  
 
   
   const app = {
