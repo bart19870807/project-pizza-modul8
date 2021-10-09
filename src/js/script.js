@@ -495,7 +495,9 @@
       thisCartProduct.menuProduct = menuProduct;
       thisCartProduct.element = element; 
 
-      thisCartProduct.cartProduct = {};
+      
+
+      thisCartProduct.cartProduct = new;
 
       thisCartProduct.id = menuProduct.id;
       thisCartProduct.name = menuProduct.name;
@@ -503,9 +505,14 @@
       thisCartProduct.priceSingle = menuProduct.priceSingle;
       thisCartProduct.price = menuProduct.price; 
 
-      thisCartProduct.getElements();
+      // thisCartProduct.getElements(element);
 
       console.log('THIScARTpRODUCT', thisCartProduct);
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      
+
+
     }
 
     getElements(element){
