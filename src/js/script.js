@@ -522,7 +522,7 @@
 
     AmountWidget(){
       const thisCartProduct = this;
-      thisCartProduct.amountWidget = new amountWidget(thisCartProduct.amountWidget);
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElem);
       thisCartProduct.amountWidgetElem.addEventListener('click', function(){
         // thisProduct.processOrder();
       });
