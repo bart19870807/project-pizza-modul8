@@ -496,6 +496,7 @@
 
       thisCartProduct.id = menuProduct.id;
       
+      
       thisCartProduct.getElements(element);
       thisCartProduct.AmountWidget();
 
@@ -522,9 +523,9 @@
 
     AmountWidget(){
       const thisCartProduct = this;
-      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElem);
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidget);
       thisCartProduct.amountWidgetElem.addEventListener('click', function(){
-        // thisProduct.processOrder();
+        
       });
     }
   
